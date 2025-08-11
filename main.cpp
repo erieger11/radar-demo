@@ -1,8 +1,10 @@
 #include <iostream>
 #include "target.hpp"
+#include "radar.hpp"
 
 int main() {
-    std::cout << "Radar system online!" << "\n";
-    return 0;
+
+    Target targetA(1, 0, 0, 0);
+    targetA.spawnTarget();
 }
 

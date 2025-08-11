@@ -1,15 +1,17 @@
 #include <iostream>
 #include "radar.hpp"
 
-void sweep(){
+void Radar::sweep(){
 
 }
 
 
-bool detection(){
-
+bool Radar::detection(){
+    return false;
 }
 
-std::string logTarget(){
-    
+std::string Radar::logTarget(){
+    std::string message = "";
+    return message;
+
 }
