@@ -5,18 +5,22 @@
 int main() {
     srand(time(NULL));
 
+    std::vector<Target> all_targets;
 
-    Target targetA(0, 0.0, 0.0, 0.0,"");
+    for(int i = 0 ; i < rand() % 11 ; i ++){
+        Target target(i + 1, 0.0, 0.0, 0.0, "");
+        target.spawnTarget();
+        target.trajectory();
+        all_targets.push_back(target);
+    }
 
 
-    targetA.spawnTarget();
-    targetA.trajectory();
-
-    std::cout << "ID: " << targetA.id
-              << ", Position: (" << targetA.xPosition << ", " << targetA.yPosition << ")"
-              << ", Speed: " << targetA.speed
-              << " MPH, Direction: " << targetA.direction << std::endl;
-
+    for (const auto& target : all_targets) {
+        std::cout << "ID: " << target.id
+                  << ", Position: (" << target.xPosition << ", " << target.yPosition << ")"
+                  << ", Speed: " << target.speed
+                  << " MPH, Direction: " << target.direction << std::endl;
+    }
 
     return 0;
 }
