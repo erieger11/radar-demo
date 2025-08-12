@@ -1,5 +1,5 @@
-#include <iostream>
 #include "target.hpp"
+#include <iostream>
 #include <cstdlib>
 
 
@@ -41,3 +41,4 @@ void Target::trajectory() {
         default: std::cout << "Invalid Direction" << std::endl; break;
     }
 }
+

@@ -1,5 +1,8 @@
+#ifndef TARGET_HPP
+#define TARGET_HPP
 #include <iostream>
 #include <vector>
+#include <string>
 
 class Target{
 
@@ -28,3 +31,5 @@ public:
     void spawnTarget();
 
 };
+
+#endif 
