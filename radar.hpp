@@ -6,19 +6,18 @@
 
 class Radar{
 
-private:
+public:
+
     int radarNumber = 1;
     double currentAngle = 0.0;
     double sweepStep = 10.0;
-    double detectionDepth = 300.0;
+    double detectionDepth = 1000.0;
     double sweepWidth = 10.0;
 
-
-public:
-
     void sweep();
-    std::vector<Target> detection(const std::vector<Target> & all_targets);
+    std::vector<Target*> detection(std::vector<Target>& all_targets);
     std::string logTarget(const Target& target);
+    void updateDetectionHistory(std::vector<Target>& all_targets);
 
 };
 

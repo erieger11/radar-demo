@@ -1,71 +1,71 @@
-#include <iostream>
-#include <cmath>
 #include "radar.hpp"
-#include "target.hpp"
+#include <cmath>
 
-void Radar::sweep(){
+// Advance radar sweep
+void Radar::sweep() {
     currentAngle += sweepStep;
-    if(currentAngle > 360.0){
-        currentAngle -= 360.0;
-    }
+    if (currentAngle >= 360.0) currentAngle -= 360.0;
 }
 
-
-std::vector<Target> Radar::detection(const std::vector<Target> & all_targets){
+// Detect targets within radar sweep arc
+std::vector<Target*> Radar::detection(std::vector<Target>& all_targets) {
     double startAngle = currentAngle - sweepWidth / 2.0;
     double endAngle = currentAngle + sweepWidth / 2.0;
 
-    std::vector<Target> detectedTargets;
+    std::vector<Target*> detected;
 
-    for (const auto& t : all_targets) {
-    double distance = std::sqrt(std::pow(t.xPosition, 2) + std::pow(t.yPosition, 2));
+    for (auto& t : all_targets) {
+        double distance = std::sqrt(t.xPosition * t.xPosition + t.yPosition * t.yPosition);
+        if (distance > detectionDepth) {
+            t.detectionStatus = false;
+            continue;
+        }
 
-    if (distance > detectionDepth) {
-        continue;
+        double angleDegrees = atan2(t.yPosition, t.xPosition) * 180.0 / M_PI;
+        if (angleDegrees < 0) angleDegrees += 360.0;
+
+        bool wrapsAround = false;
+        double adjStart = startAngle, adjEnd = endAngle;
+
+        if (startAngle < 0) { adjStart += 360; adjEnd += 360; }
+        else if (endAngle > 360) { wrapsAround = true; adjEnd -= 360; }
+
+        bool insideArc = !wrapsAround ?
+            (angleDegrees >= adjStart && angleDegrees <= adjEnd) :
+            (angleDegrees >= adjStart || angleDegrees <= adjEnd);
+
+        t.detectionStatus = insideArc;
+        if (insideArc) detected.push_back(&t);
     }
 
-    double angleRadians = atan2(t.yPosition, t.xPosition);
-    double angleDegrees = angleRadians * 180.0 / M_PI;
-    if(angleDegrees < 0){
-        angleDegrees+= 360.0;
-    }
-    
-    bool wrapsAround = false;
-    double adjustedStart = startAngle;
-    double adjustedEnd = endAngle;
-
-    if(startAngle < 0){
-        adjustedStart += 360.0;
-        adjustedEnd += 360.0;
-    }else if(endAngle > 360.0){
-        wrapsAround = true;
-        adjustedEnd -= 360.0;
-    }
-
-    bool insideArc = false;
-    if(!wrapsAround){
-        insideArc = (angleDegrees >= adjustedStart && angleDegrees <= adjustedEnd);
-    }else{
-        insideArc = (angleDegrees >= adjustedStart || angleDegrees <= adjustedEnd);
-    }
-
-    if(insideArc){
-        detectedTargets.push_back(t);
-    }
- }
-
- return detectedTargets;
-
+    return detected;
 }
 
-std::string Radar::logTarget(const Target& spottedTarget){
+// Update previouslyDetected for next sweep
+void Radar::updateDetectionHistory(std::vector<Target>& all_targets) {
+    for (auto& t : all_targets) {
+        t.previouslyDetected = t.detectionStatus;
+    }
+}
 
-    std::string message = "Target has been spotted!\n"
-                           "X cord - " + std::to_string(spottedTarget.xPosition) + "\n"
-                           "Y cord - " + std::to_string(spottedTarget.yPosition) + "\n"
-                           "Speed - " + std::to_string(spottedTarget.speed) + "\n"
-                           "Direction - " + spottedTarget.direction;
+// Log the status of a target
+std::string Radar::logTarget(const Target& t) {
+    double angleDegrees = atan2(t.yPosition, t.xPosition) * 180.0 / M_PI;
+    if (angleDegrees < 0) angleDegrees += 360.0;
+
+    std::string message;
+
+    if (t.detectionStatus && !t.previouslyDetected) message = "Target has been spotted!\n";
+    else if (t.detectionStatus && t.previouslyDetected) message = "Target location updated.\n";
+    else if (!t.detectionStatus && t.previouslyDetected) message = "Target lost from radar.\n";
+    else return ""; // invisible, skip logging
+
+    message += "ID - " + std::to_string(t.id) + "\n" +
+               "X coord - " + std::to_string(t.xPosition) + "\n" +
+               "Y coord - " + std::to_string(t.yPosition) + "\n" +
+               "Target angle - " + std::to_string(angleDegrees) + " degrees\n" +
+               "Speed - " + std::to_string(t.speed) + "\n" +
+               "Direction - " + t.direction;
 
     return message;
-
 }
