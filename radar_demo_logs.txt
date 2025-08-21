@@ -1,0 +1,88 @@
+Target has been spotted!
+ID - 3
+X coord - -302.908414
+Y coord - 369.551683
+Target angle - 129.340258 degrees
+Speed - 281.211798
+Direction - SE
+
+Target has been spotted!
+ID - 1
+X coord - -393.035676
+Y coord - 337.443159
+Target angle - 139.352061 degrees
+Speed - 178.285073
+Direction - S
+
+Target has been spotted!
+ID - 2
+X coord - 344.071780
+Y coord - -345.606861
+Target angle - 314.872472 degrees
+Speed - 287.455885
+Direction - E
+
+Target has been spotted!
+ID - 3
+X coord - -302.908414
+Y coord - 369.551683
+Target angle - 129.340258 degrees
+Speed - 281.211798
+Direction - SE
+
+Target has been spotted!
+ID - 1
+X coord - -393.035676
+Y coord - 337.443159
+Target angle - 139.352061 degrees
+Speed - 178.285073
+Direction - S
+
+Target has been spotted!
+ID - 2
+X coord - 344.071780
+Y coord - -345.606861
+Target angle - 314.872472 degrees
+Speed - 287.455885
+Direction - E
+
+Target has been spotted!
+ID - 1
+X coord - -368.303476
+Y coord - -367.842647
+Target angle - 224.964133 degrees
+Speed - 300.725333
+Direction - N
+
+Target has been spotted!
+ID - 2
+X coord - 374.581133
+Y coord - -399.450667
+Target angle - 313.159728 degrees
+Speed - 276.249489
+Direction - N
+
+Target has been spotted!
+ID - 3
+X coord - 345.997497
+Y coord - 348.698386
+Target angle - 45.222757 degrees
+Speed - 205.208502
+Direction - SE
+
+Target has been spotted!
+ID - 1
+X coord - -368.303476
+Y coord - -367.842647
+Target angle - 224.964133 degrees
+Speed - 300.725333
+Direction - N
+
+Target has been spotted!
+ID - 2
+X coord - 374.581133
+Y coord - -399.450667
+Target angle - 313.159728 degrees
+Speed - 276.249489
+Direction - N
+

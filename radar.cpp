@@ -6,7 +6,6 @@
 Radar::Radar(const std::string& configFile, const std::string& logFile)
     : configFileName(configFile), logFileName(logFile) {}
 
-// Reads simulation settings from config file
 void Radar::radarSettings() {
     std::ifstream inFile(configFileName);
 
@@ -17,7 +16,6 @@ void Radar::radarSettings() {
             int equalPosition = line.find('=');
 
             if (equalPosition == std::string::npos) {
-                // skip lines without '='
                 continue;
             }
 
@@ -40,13 +38,11 @@ void Radar::radarSettings() {
     }
 }
 
-// Moves the radar sweep
 void Radar::sweep() {
     currentAngle += sweepStep;
     if (currentAngle >= 360.0) currentAngle -= 360.0;
 }
 
-// Detects targets within sweep area
 std::vector<Target*> Radar::detection(std::vector<Target>& all_targets) {
     double startAngle = currentAngle - sweepWidth / 2.0;
     double endAngle = currentAngle + sweepWidth / 2.0;
@@ -80,7 +76,6 @@ std::vector<Target*> Radar::detection(std::vector<Target>& all_targets) {
     return detected;
 }
 
-// Logs target info to the log file
 void Radar::logTarget(const Target& t) {
     double angleDegrees = atan2(t.yPosition, t.xPosition) * 180.0 / M_PI;
     if (angleDegrees < 0) angleDegrees += 360.0;

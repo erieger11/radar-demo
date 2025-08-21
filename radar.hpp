@@ -7,7 +7,6 @@
 class Radar{
 
 private:
-    std::string fileName;
     std::string configFileName;
     std::string logFileName;
 

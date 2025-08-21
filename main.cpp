@@ -1,16 +1,16 @@
 #include <iostream>
 #include <vector>
-#include <thread>     
-#include <chrono>     
-#include <cstdlib>    
-#include <ctime>      
+#include <thread>
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
 #include "target.hpp"
 #include "radar.hpp"
 
 int main() {
     srand(time(NULL));
 
-    Radar radar("radar_config.txt", "radar_demo_logs.txt");
+    Radar radar("radar_config.txt", "radar_logs.txt");
     radar.radarSettings();  
 
     std::vector<Target> all_targets;
@@ -18,43 +18,39 @@ int main() {
     int tick = 0;
     bool running = true;
 
-while(running){
-    int spawnFlag = rand() % 2; 
-    radar.sweep();
+    while (running) {
 
-    if (spawnFlag == 0 && all_targets.size() < radar.maxTargets) {
-        int newId = all_targets.size() + 1;
-        Target target(newId, 0.0, 0.0, 0.0, "", false, false);
-        target.spawnTarget();
-        target.trajectory();
-        all_targets.push_back(target);
+        radar.sweep();
+        std::cout << "Radar current Angle: " << radar.currentAngle << std::endl;
 
-        std::cout << "Target spawn --- ID: " << target.id
-                  << ", Position: (" << target.xPosition << ", " << target.yPosition << ")"
-                  << ", Speed: " << target.speed
-                  << " MPH, Direction: " << target.direction << std::endl;
+        if (rand() % 2 == 0 && all_targets.size() < radar.maxTargets) {
+            int newId = all_targets.size() + 1;
+            Target target(newId, 0.0, 0.0, 0.0, "", false, false);
+            target.spawnTarget();
+            target.trajectory();
+            all_targets.push_back(target);
+
+            std::cout << "Target spawn --- ID: " << target.id
+                      << ", Position: (" << target.xPosition << ", " << target.yPosition << ")"
+                      << ", Speed: " << target.speed
+                      << " MPH, Direction: " << target.direction << std::endl;
+        }
+
+        std::vector<Target*> detectedTargets = radar.detection(all_targets);
+
+        for (const Target* dt : detectedTargets) {
+            radar.logTarget(*dt);
+        }
+
+        tick++;
+        if (tick >= radar.maxTicks) {
+            running = false;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(radar.tickDurationMs));
+        std::cout << "-------------------------------------\n";
     }
 
-    std::cout << "Radar current Angle : " << radar.currentAngle << std::endl;
-
-    tick++;
-
-    std::vector<Target*> detectedTargets = radar.detection(all_targets);
-
-    for(const Target* dt : detectedTargets){
-        radar.logTarget(*dt);
-    }
-
-    if(tick >= radar.maxTicks){
-        running = false;
-    }
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(radar.tickDurationMs));
-    std::cout << "-------------------------------------\n";
-}
-    
     std::cout << "Simulation complete!" << std::endl;
-
     return 0;
 }
-
