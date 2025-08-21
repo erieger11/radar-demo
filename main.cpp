@@ -6,18 +6,14 @@
 #include <ctime>      
 #include "target.hpp"
 #include "radar.hpp"
-#include "logging.hpp"
 
 int main() {
     srand(time(NULL));
 
-    Logging logger("example.txt");
-    Radar radar;
+    Radar radar("radar_config.txt", "radar_demo_logs.txt");
+    radar.radarSettings();  
 
     std::vector<Target> all_targets;
-    const int maxTargets = 3;  
-    const int maxTicks = 72; 
-    const int tickDurationMs = 1000;
 
     int tick = 0;
     bool running = true;
@@ -26,7 +22,7 @@ while(running){
     int spawnFlag = rand() % 2; 
     radar.sweep();
 
-    if (spawnFlag == 0 && all_targets.size() < maxTargets) {
+    if (spawnFlag == 0 && all_targets.size() < radar.maxTargets) {
         int newId = all_targets.size() + 1;
         Target target(newId, 0.0, 0.0, 0.0, "", false, false);
         target.spawnTarget();
@@ -45,25 +41,17 @@ while(running){
 
     std::vector<Target*> detectedTargets = radar.detection(all_targets);
 
-    radar.updateDetectionHistory(all_targets);
-
     for(const Target* dt : detectedTargets){
-        std::string msg = radar.logTarget(*dt);
-        if(!msg.empty()){  
-            std::cout << msg << std::endl;
-        }
+        radar.logTarget(*dt);
     }
 
-    if(tick >= maxTicks){
+    if(tick >= radar.maxTicks){
         running = false;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(tickDurationMs));
+    std::this_thread::sleep_for(std::chrono::milliseconds(radar.tickDurationMs));
     std::cout << "-------------------------------------\n";
 }
-
-    logger.writeToFile("Hello, this is a test log!");
-    logger.readFromFile();
     
     std::cout << "Simulation complete!" << std::endl;
 

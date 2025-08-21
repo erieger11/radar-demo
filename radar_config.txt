@@ -1,0 +1,3 @@
+maxTargets = 4
+maxTicks = 180
+tickDurationMs = 500
