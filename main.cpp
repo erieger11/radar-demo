@@ -10,7 +10,7 @@
 int main() {
     srand(time(NULL));
 
-    Radar radar("radar_config.txt", "radar_logs.txt");
+    Radar radar("radar_config.txt", "radar_logs_3.txt");
     radar.radarSettings();  
 
     std::vector<Target> all_targets;
@@ -27,7 +27,6 @@ int main() {
             int newId = all_targets.size() + 1;
             Target target(newId, 0.0, 0.0, 0.0, "", false, false);
             target.spawnTarget();
-            target.trajectory();
             all_targets.push_back(target);
 
             std::cout << "Target spawn --- ID: " << target.id
@@ -36,9 +35,12 @@ int main() {
                       << " MPH, Direction: " << target.direction << std::endl;
         }
 
-        std::vector<Target*> detectedTargets = radar.detection(all_targets);
+        for(Target& t : all_targets){
+                t.trajectory();
+        }
 
-        for (const Target* dt : detectedTargets) {
+        std::vector<Target*> detectedTargets = radar.detection(all_targets);
+        for (Target* dt : detectedTargets) {
             radar.logTarget(*dt);
         }
 

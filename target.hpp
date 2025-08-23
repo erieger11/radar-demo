@@ -7,7 +7,8 @@
 class Target{
 
 private:
-   
+    std::string directionFromInt(int dir);
+    double angleFromDirection(const std::string& dir);   
 
 
 public:
@@ -15,10 +16,13 @@ public:
     int id;
     double xPosition;
     double yPosition;
+    double prevX = xPosition;
+    double prevY = yPosition;
     double speed;
     std::string direction;
     bool detectionStatus;
     bool previouslyDetected;
+    double angleRad;
 
     Target(int target_id, double target_xPosition, double target_yPosition, double target_speed, std::string target_direction, 
         bool target_detectionStatus, bool target_previouslyDetected){

@@ -2,6 +2,8 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <time.h>
 
 Radar::Radar(const std::string& configFile, const std::string& logFile)
     : configFileName(configFile), logFileName(logFile) {}
@@ -87,7 +89,14 @@ void Radar::logTarget(const Target& t) {
     else if (!t.detectionStatus && t.previouslyDetected) message = "Target lost from radar.\n";
     else message = "";
 
-    message += "ID - " + std::to_string(t.id) + "\n" +
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+
+    message += "[" + std::string(buf) + "]\n" +
+               "ID - " + std::to_string(t.id) + "\n" +
                "X coord - " + std::to_string(t.xPosition) + "\n" +
                "Y coord - " + std::to_string(t.yPosition) + "\n" +
                "Target angle - " + std::to_string(angleDegrees) + " degrees\n" +
@@ -102,4 +111,9 @@ void Radar::logTarget(const Target& t) {
     } else {
         std::cerr << "Error opening file to write" << std::endl;
     }
+
+    if (t.detectionStatus) {
+        const_cast<Target&>(t).previouslyDetected = true;
+    }
+
 }

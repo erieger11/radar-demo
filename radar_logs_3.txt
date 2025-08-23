@@ -1,0 +1,54 @@
+Target has been spotted!
+[2025-08-22.22:23:45]
+ID - 2
+X coord - 387.829334
+Y coord - 317.804614
+Target angle - 39.332716 degrees
+Speed - 290.904477
+Direction - NE
+
+Target has been spotted!
+[2025-08-22.22:24:04]
+ID - 3
+X coord - -282.588171
+Y coord - -330.762658
+Target angle - 229.490969 degrees
+Speed - 285.673605
+Direction - E
+
+Target has been spotted!
+[2025-08-22.22:24:12]
+ID - 1
+X coord - 350.618000
+Y coord - -375.404526
+Target angle - 313.044672 degrees
+Speed - 128.063814
+Direction - S
+
+Target location updated.
+[2025-08-22.22:24:21]
+ID - 2
+X coord - 461.881524
+Y coord - 391.856804
+Target angle - 40.311022 degrees
+Speed - 290.904477
+Direction - NE
+
+Target location updated.
+[2025-08-22.22:24:42]
+ID - 3
+X coord - -176.888937
+Y coord - -330.762658
+Target angle - 241.862524 degrees
+Speed - 285.673605
+Direction - E
+
+Target location updated.
+[2025-08-22.22:24:49]
+ID - 1
+X coord - 350.618000
+Y coord - -421.507499
+Target angle - 309.754332 degrees
+Speed - 128.063814
+Direction - S
+
